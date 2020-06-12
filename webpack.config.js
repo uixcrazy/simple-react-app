@@ -5,8 +5,6 @@ const IgnoreNotFoundExportPlugin = require("ignore-not-found-export-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
 
-const packagesPath = [__dirname, "..", "..", "packages"];
-
 module.exports = {
   devtool: "cheap-module-source-map",
   module: {
@@ -56,15 +54,13 @@ module.exports = {
   ].concat(
     process.env.NODE_ENV === "development" ? [new BundleAnalyzerPlugin()] : []
   ),
-  resolve:
-    process.env.USE_ALIAS === "true"
-      ? {
-          extensions: [".ts", ".js", ".tsx", ".json"],
-          alias: {
-            "my-i18n": path.join(...packagesPath, "i18n", "src"),
-          },
-        }
-      : {},
+  resolve: {
+    extensions: [".ts", ".js", ".tsx", ".json"],
+    alias: {
+      // Utilities: path.resolve(__dirname, 'src/utilities/'),
+      Common: path.resolve(__dirname, "src/components/common")
+    },
+  },
   devServer: {
     stats: {
       children: false,
